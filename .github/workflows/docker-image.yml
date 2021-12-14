@@ -1,0 +1,50 @@
+name: Docker
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+#  release:
+#    types: [published]
+   watch:
+     types: [started]  
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+     if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 star
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build & PUSH
+        run: |
+          docker build -t lpyedge/deluge:linux-x64 -f ./Dockerfile --build-arg BASE_IMAGE_PREFIX="amd64" --rm .
+          
+          docker push lpyedge/deluge:linux-x64
+          
+          docker manifest create lpyedge/deluge \
+            lpyedge/deluge:linux-x64         
+          
+          docker manifest push lpyedge/deluge
