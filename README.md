@@ -4,7 +4,7 @@ Deluge 轻量级 BT PT 客户端
 
 
 Docker Hub 地址
-[https://hub.docker.com/r/lpyedge/deluge](https://hub.docker.com/r/lpyedge/js.189.cn-speedup)
+[https://hub.docker.com/r/lpyedge/deluge](https://hub.docker.com/r/lpyedge/deluge)
 
 
 ### 变量
