@@ -21,6 +21,9 @@ RUN apk add --no-cache ca-certificates
 RUN apk add --update --no-cache deluge py3-pip tzdata
 RUN pip install setuptools
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
+#ready for start
+COPY scripts/start.sh /
 RUN mkdir /config
 RUN chmod -R 777 /start.sh /config
 
@@ -40,7 +43,5 @@ VOLUME ["/data"]
 
 #custom config core.conf
 COPY /scripts/core.conf /config/core.conf
-
-COPY scripts/start.sh /
 
 ENTRYPOINT ["/start.sh"]
