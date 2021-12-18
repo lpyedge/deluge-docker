@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM wiserain/libtorrent:latest-alpine3.15 as final
+FROM emmercm/libtorrent:2.0.4-alpine as final
 
 #维护者信息
 LABEL name="lpyedge/deluge"
@@ -23,6 +23,7 @@ COPY scripts/start.sh /
 COPY scripts/healthcheck.sh /
 #设置权限
 RUN chmod -R 777 /start.sh /healthcheck.sh /config
+
 
 ENV PYTHON_EGG_CACHE=/config/.cache
 
@@ -49,18 +50,17 @@ RUN apk add --no-cache --virtual=build-dependencies --upgrade \
   git \
   python3-dev
 
-RUN python3 -m ensurepip --upgrade 
-RUN git clone https://git.deluge-torrent.org/deluge /tmp/deluge
-#RUN cd /tmp/deluge
-WORKDIR /tmp/deluge
-RUN echo `ls -a`
-RUN git checkout master
+RUN python3 -m ensurepip --upgrade
+
 RUN pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
   wheel \
   pip \
   six==1.16.0
 
-RUN pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
+RUN git clone https://git.deluge-torrent.org/deluge /tmp/deluge && \
+  cd /tmp/deluge && \
+  git checkout master && \
+  pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
   python3 setup.py clean -a && \
   python3 setup.py build && \
   python3 setup.py install && \
