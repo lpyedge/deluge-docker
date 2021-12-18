@@ -40,11 +40,16 @@ jobs:
       -
         name: Build & PUSH
         run: |
-          docker build -t lpyedge/deluge:linux-x64 -f ./Dockerfile --build-arg BASE_IMAGE_PREFIX="amd64" --rm .
+        
+          docker build -t lpyedge/deluge -f ./Dockerfile --rm .
           
-          docker push lpyedge/deluge:linux-x64
+          docker push lpyedge/deluge        
           
-          docker manifest create lpyedge/deluge \
-            lpyedge/deluge:linux-x64         
+#           docker build -t lpyedge/deluge:linux-x64 -f ./Dockerfile --build-arg BASE_IMAGE_PREFIX="amd64" --rm .
           
-          docker manifest push lpyedge/deluge
+#           docker push lpyedge/deluge:linux-x64
+          
+#           docker manifest create lpyedge/deluge \
+#             lpyedge/deluge:linux-x64         
+          
+#           docker manifest push lpyedge/deluge
