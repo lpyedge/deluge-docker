@@ -42,7 +42,7 @@ RUN apk add --no-cache --virtual=build-dependencies --upgrade \
   python3-dev
 
 RUN python3 -m ensurepip --upgrade 
-RUN git clone git://deluge-torrent.org/deluge.git /source/deluge
+RUN git clone https://git.deluge-torrent.org/deluge /source/deluge
 RUN cd /source/deluge
 #RUN git checkout -b master
 RUN pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
