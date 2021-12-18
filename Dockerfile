@@ -42,8 +42,8 @@ RUN apk add --no-cache --virtual=build-dependencies --upgrade \
   python3-dev
 
 RUN python3 -m ensurepip --upgrade 
-RUN git clone git://deluge-torrent.org/deluge.git /tmp
-RUN cd /tmp/deluge
+RUN git clone git://deluge-torrent.org/deluge.git /source
+RUN cd /source/deluge
 RUN git checkout -b master
 RUN pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
   wheel \
@@ -55,7 +55,7 @@ RUN pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requiremen
   python3 setup.py build && \
   python3 setup.py install && \
   apk del --purge build-dependencies && \
-  rm -rf /tmp/*
+  rm -rf /source/*
 
 # expose port for http
 EXPOSE 8112
