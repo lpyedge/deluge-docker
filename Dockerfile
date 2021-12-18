@@ -42,13 +42,14 @@ RUN apk add --no-cache --virtual=build-dependencies --upgrade \
   python3-dev
 
 RUN python3 -m ensurepip --upgrade 
-RUN git clone https://git.deluge-torrent.org/deluge /source/deluge
-RUN cd /source/deluge
-#RUN git checkout -b master
 RUN pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
   wheel \
   pip \
   six==1.16.0
+  
+RUN git clone https://git.deluge-torrent.org/deluge /source/deluge
+RUN cd /source/deluge
+RUN git checkout master
 
 RUN pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
   python3 setup.py clean -a && \
