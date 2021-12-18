@@ -14,7 +14,15 @@ ENV PGID=0
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
-#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories;
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories;
+
+#custom config scripts
+RUN mkdir /config
+COPY scripts/core.conf /config/core.conf
+COPY scripts/start.sh /
+COPY scripts/healthcheck.sh /
+#设置权限
+RUN chmod -R 777 /start.sh /healthcheck.sh /config
 
 ENV PYTHON_EGG_CACHE=/config/.cache
 
@@ -42,21 +50,20 @@ RUN apk add --no-cache --virtual=build-dependencies --upgrade \
   python3-dev
 
 RUN python3 -m ensurepip --upgrade 
+RUN git clone https://git.deluge-torrent.org/deluge /tmp/deluge
+RUN cd /tmp/deluge
+RUN git checkout master
 RUN pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
   wheel \
   pip \
   six==1.16.0
-  
-RUN git clone https://git.deluge-torrent.org/deluge /source/deluge
-RUN cd /source/deluge
-RUN git checkout master
 
 RUN pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
   python3 setup.py clean -a && \
   python3 setup.py build && \
   python3 setup.py install && \
   apk del --purge build-dependencies && \
-  rm -rf /source
+  rm -rf /tmp/*
 
 # expose port for http
 EXPOSE 8112
@@ -68,18 +75,13 @@ EXPOSE 8112
 EXPOSE 58946
 EXPOSE 58946/udp
 
-WORKDIR /config
+
 VOLUME ["/config"]
 VOLUME ["/data"]
 
-#custom config core.conf
-COPY scripts/core.conf /config/core.conf
-COPY scripts/start.sh /
-COPY scripts/healthcheck.sh /
-
-RUN chmod -R 777 /start.sh /healthcheck.sh /config
-
 HEALTHCHECK --interval=5m --timeout=3s --start-period=30s \
   CMD /healthcheck.sh 58846 8112
+
+WORKDIR /config
 
 ENTRYPOINT ["/start.sh"]
