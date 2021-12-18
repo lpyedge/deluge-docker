@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM emmercm/libtorrent:2.0.4-alpine as final
+FROM wiserain/libtorrent:latest-alpine3.15  as final
 
 #维护者信息
 LABEL name="lpyedge/deluge"
@@ -21,6 +21,7 @@ RUN mkdir /config
 COPY scripts/core.conf /config/core.conf
 COPY scripts/start.sh /
 COPY scripts/healthcheck.sh /
+
 #设置权限
 RUN chmod -R 777 /start.sh /healthcheck.sh /config
 
@@ -30,8 +31,8 @@ ENV PYTHON_EGG_CACHE=/config/.cache
 RUN apk update && apk upgrade
 
 RUN apk add --no-cache --virtual=base --upgrade \
-  bash \
-  p7zip \
+  #bash \
+  #p7zip \
   #unrar \
   unzip \
   tzdata \
