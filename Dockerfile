@@ -57,6 +57,7 @@ RUN apk update && \
     pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
       wheel \
       pip \
+      lbry-libtorrent \
       six==1.16.0 && \
       
     #Checkout deluge source    
