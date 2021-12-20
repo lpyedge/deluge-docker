@@ -60,7 +60,7 @@ RUN apk update && \
       six==1.16.0 && \
       
     #Checkout libtorrent source
-    git clone --branch v2.0.5 --depth 1 https://github.com/arvidn/libtorrent.git /tmp/libtorrent && \
+    git clone --branch v2.0.5 --single-branch --depth 1 https://github.com/arvidn/libtorrent.git /tmp/libtorrent && \
     cd /tmp/libtorrent && \
     git clean --force && \
     git submodule update --depth=1 --init --recursive && \
@@ -68,7 +68,7 @@ RUN apk update && \
     python3 setup.py install && \
     
     #Checkout deluge source    
-    git clone --branch master https://git.deluge-torrent.org/deluge /tmp/deluge && \
+    git clone --branch master --single-branch https://git.deluge-torrent.org/deluge /tmp/deluge && \
     cd /tmp/deluge && \    
     git clean --force && \
     git submodule update --depth=1 --init --recursive && \
