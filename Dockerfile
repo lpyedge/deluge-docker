@@ -37,7 +37,8 @@ RUN apk update && \
       unzip \
       tzdata \
       ca-certificates \
-      curl && \
+      curl \
+      libtorrent-rasterbar && \
       
     apk add --no-cache --virtual=build-dependencies --upgrade \
       build-base \
@@ -49,9 +50,7 @@ RUN apk update && \
       musl-dev \
       cargo \
       git \
-      python3-dev \
-      
-      boost-build boost-dev cmake coreutils g++ gcc jq py3-setuptools samurai && \
+      python3-dev && \
 
     python3 -m ensurepip --upgrade && \
 
@@ -60,14 +59,6 @@ RUN apk update && \
       pip \
       six==1.16.0 && \
       
-    #Checkout libtorrent source
-    git clone --branch v2.0.5 --single-branch --depth 1 https://github.com/arvidn/libtorrent.git /tmp/libtorrent && \
-    cd /tmp/libtorrent && \
-    git clean --force && \
-    git submodule update --depth=1 --init --recursive && \
-    # build & install libtorrent    
-    python3 setup.py install && \
-    
     #Checkout deluge source    
     git clone --branch master --single-branch https://git.deluge-torrent.org/deluge /tmp/deluge && \
     cd /tmp/deluge && \    
