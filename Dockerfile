@@ -1,4 +1,5 @@
-FROM emmercm/libtorrent:latest
+FROM wiserain/libtorrent:latest-alpine3.15 AS libtorrent
+FROM alpine:latest
 
 #维护者信息
 LABEL name="lpyedge/deluge"
@@ -13,6 +14,10 @@ ENV PGID=0
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories;
+
+
+COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
+
 
 #custom config scripts
 RUN mkdir /config
