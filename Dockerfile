@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM wiserain/libtorrent:latest-alpine3.15  as libtorrent
-FROM alpine:3.15
+FROM emmercm/libtorrent:latest
 
 #维护者信息
 LABEL name="lpyedge/deluge"
@@ -10,16 +9,6 @@ LABEL email="lpyedge#163.com"
 
 ENV PUID=0
 ENV PGID=0
-
-# install runtime library
-RUN apk add --no-cache \
-      libstdc++ \
-      boost-system \
-      boost-python3 \
-      python3
-
-# copy libtorrent libs
-COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
