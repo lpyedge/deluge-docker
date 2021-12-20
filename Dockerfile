@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM emmercm/libtorrent:latest
 
 #维护者信息
 LABEL name="lpyedge/deluge"
@@ -53,7 +53,6 @@ RUN apk update && \
     pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
       wheel \
       pip \
-      lbry-libtorrent \
       six==1.16.0 && \
 
     git clone https://git.deluge-torrent.org/deluge /tmp/deluge && \
