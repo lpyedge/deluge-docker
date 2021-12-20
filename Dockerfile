@@ -49,7 +49,8 @@ RUN apk update && \
       musl-dev \
       cargo \
       git \
-      python3-dev && \
+      python3-dev \
+      samurai && \
 
     python3 -m ensurepip --upgrade && \
 
@@ -63,15 +64,8 @@ RUN apk update && \
     cd /tmp/libtorrent && \
     git clean --force && \
     git submodule update --depth=1 --init --recursive && \
-    # build & install libtorrent
-    PREFIX=/usr && \
-    BUILD_CONFIG="release cxxstd=14 crypto=openssl warnings=off address-model=32 -j$(nproc)" && \
-    BOOST_ROOT="" b2 ${BUILD_CONFIG} link=shared install --prefix=${PREFIX} && \
-    BOOST_ROOT="" b2 ${BUILD_CONFIG} link=static install --prefix=${PREFIX} && \
-    cd bindings/python && \
-    PYTHON_MAJOR_MINOR="$(python3 --version 2>&1 | sed 's/\(python \)\?\([0-9]\+\.[0-9]\+\)\(\.[0-9]\+\)\?/\2/i')" && \
-    echo "using python : ${PYTHON_MAJOR_MINOR} : $(command -v python3) : /usr/include/python${PYTHON_MAJOR_MINOR} : /usr/lib/python${PYTHON_MAJOR_MINOR} ;" > ~/user-config.jam && \
-    BOOST_ROOT="" b2 ${BUILD_CONFIG} install_module python-install-scope=system && \
+    # build & install libtorrent    
+    python3 setup.py install && \
     
     #Checkout deluge source    
     git clone --branch master https://git.deluge-torrent.org/deluge /tmp/deluge && \
