@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 FROM emmercm/libtorrent:latest
 
 #维护者信息
@@ -25,48 +23,47 @@ COPY scripts/healthcheck.sh /
 #设置权限
 RUN chmod -R 777 /start.sh /healthcheck.sh /config
 
-
 ENV PYTHON_EGG_CACHE=/config/.cache
 
-RUN apk update && apk upgrade
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache --virtual=base --upgrade \
+      #bash \
+      #p7zip \
+      #unrar \
+      unzip \
+      tzdata \
+      ca-certificates \
+      curl && \
+      
+    apk add --no-cache --virtual=build-dependencies --upgrade \
+      build-base \
+      libffi-dev \
+      zlib-dev \
+      openssl-dev \
+      libjpeg-turbo-dev \
+      linux-headers \
+      musl-dev \
+      cargo \
+      git \
+      python3-dev && \
 
-RUN apk add --no-cache --virtual=base --upgrade \
-  #bash \
-  #p7zip \
-  #unrar \
-  unzip \
-  tzdata \
-  ca-certificates \
-  curl
+    python3 -m ensurepip --upgrade && \
 
-RUN apk add --no-cache --virtual=build-dependencies --upgrade \
-  build-base \
-  libffi-dev \
-  zlib-dev \
-  openssl-dev \
-  libjpeg-turbo-dev \
-  linux-headers \
-  musl-dev \
-  cargo \
-  git \
-  python3-dev
+    pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
+      wheel \
+      pip \
+      six==1.16.0 && \
 
-RUN python3 -m ensurepip --upgrade
-
-RUN pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
-  wheel \
-  pip \
-  six==1.16.0
-
-RUN git clone https://git.deluge-torrent.org/deluge /tmp/deluge && \
-  cd /tmp/deluge && \
-  git checkout master && \
-  pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
-  python3 setup.py clean -a && \
-  python3 setup.py build && \
-  python3 setup.py install && \
-  apk del --purge build-dependencies && \
-  rm -rf /tmp/*
+    git clone https://git.deluge-torrent.org/deluge /tmp/deluge && \
+    cd /tmp/deluge && \
+    git checkout master && \
+    pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
+    python3 setup.py clean -a && \
+    python3 setup.py build && \
+    python3 setup.py install && \
+    apk del --purge build-dependencies && \
+    rm -rf /tmp/*
 
 # expose port for http
 EXPOSE 8112
