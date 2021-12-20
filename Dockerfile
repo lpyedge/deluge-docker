@@ -1,6 +1,8 @@
 FROM wiserain/libtorrent:latest-alpine3.15 AS libtorrent
 FROM alpine:latest
 
+SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
+
 #维护者信息
 LABEL name="lpyedge/deluge"
 LABEL url="https://github.com/lpyedge/deluge"
