@@ -50,7 +50,8 @@ RUN apk update && \
       cargo \
       git \
       python3-dev \
-      samurai && \
+      
+      boost-build boost-dev cmake coreutils g++ gcc jq py3-setuptools samurai && \
 
     python3 -m ensurepip --upgrade && \
 
@@ -72,7 +73,6 @@ RUN apk update && \
     cd /tmp/deluge && \    
     git clean --force && \
     git submodule update --depth=1 --init --recursive && \
-    #git checkout master && \
     
     # build & install deluge
     pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
