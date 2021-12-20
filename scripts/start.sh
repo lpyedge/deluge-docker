@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 mkdir -p /config/log
 chown -R $PUID:$PGID /config
 
