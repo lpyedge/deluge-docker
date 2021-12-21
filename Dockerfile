@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:latest
+FROM emmercm/libtorrent:1-alpine
 
 #维护者信息
 LABEL name="lpyedge/deluge"
