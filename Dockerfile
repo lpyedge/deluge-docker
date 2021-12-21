@@ -28,7 +28,7 @@ ENV PYTHON_EGG_CACHE=/config/.cache
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache --virtual=base --upgrade \
-      #bash \
+      bash \
       #p7zip \
       #unrar \
       unzip \
