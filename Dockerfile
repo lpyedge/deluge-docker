@@ -55,8 +55,10 @@ RUN apk update && \
       pip \
       six==1.16.0 && \
 
-    git clone --branch master --single-branch https://git.deluge-torrent.org/deluge /tmp/deluge && \
+    git clone --branch master --single-branch --depth 1 https://github.com/deluge-torrent/deluge /tmp/deluge && \
     cd /tmp/deluge && \
+    git clean --force && \
+    git submodule update --depth=1 --init --recursive && \    
     pip3 --timeout 40 --retries 10 install --no-cache-dir --upgrade --requirement requirements.txt && \
     python3 setup.py clean -a && \
     python3 setup.py build && \
