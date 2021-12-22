@@ -5,8 +5,9 @@ LABEL name="lpyedge/deluge"
 LABEL url="https://github.com/lpyedge/deluge"
 LABEL email="lpyedge#163.com"
 
-ENV PUID=0
-ENV PGID=0
+ENV USER=deluge \
+    PUID=1000 \
+    PGID=1000
 
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
@@ -67,18 +68,16 @@ RUN apk update && \
     rm -rf /tmp/*
 
 # expose port for http
-EXPOSE 8112
+EXPOSE 8112/tcp
 
 # expose port for deluge daemon
 #EXPOSE 58846
 
 # expose port for incoming torrent data (tcp and udp)
-EXPOSE 58946
-EXPOSE 58946/udp
+EXPOSE 58946/tcp 58946/udp
 
 
-VOLUME ["/config"]
-VOLUME ["/data"]
+VOLUME ["/config","/data"]
 
 HEALTHCHECK --interval=5m --timeout=3s --start-period=30s \
   CMD /healthcheck.sh 58846 8112
