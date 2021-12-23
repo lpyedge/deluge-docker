@@ -12,9 +12,9 @@ on:
      types: [started]  
 
 env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
+#   # Use docker.io for Docker Hub if empty
+#   REGISTRY: ghcr.io
+#   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -43,9 +43,10 @@ jobs:
         name: Build & PUSH
         run: |
         
-          docker build -t lpyedge/deluge -f ./Dockerfile --rm .
-          
-          docker push lpyedge/deluge        
+          docker build -t lpyedge/deluge -f ./Dockerfile .
+          docker push lpyedge/deluge
+          docker build -t lpyedge/deluge:edge -f ./Dockerfile_2 .
+          docker push lpyedge/deluge:edge
           
 #           docker build -t lpyedge/deluge:linux-x64 -f ./Dockerfile --build-arg BASE_IMAGE_PREFIX="amd64" --rm .
           
