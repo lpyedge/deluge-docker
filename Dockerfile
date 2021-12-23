@@ -2,7 +2,7 @@ FROM emmercm/libtorrent:1-alpine
 
 #维护者信息
 LABEL name="lpyedge/deluge"
-LABEL url="https://github.com/lpyedge/deluge"
+LABEL url="https://hub.docker.com/r/lpyedge/deluge"
 LABEL email="lpyedge#163.com"
 
 ENV USER=deluge \
@@ -19,10 +19,10 @@ ENV USER=deluge \
 RUN mkdir /config
 COPY scripts/core.conf /config/core.conf
 COPY scripts/start.sh /
-COPY scripts/healthcheck.sh /
+COPY scripts/health.sh /
 
 #设置权限
-RUN chmod -R 777 /start.sh /healthcheck.sh /config
+RUN chmod -R 777 /start.sh /health.sh /config
 
 ENV PYTHON_EGG_CACHE=/config/.cache
 
