@@ -6,7 +6,7 @@ Deluge 轻量级 BT PT 客户端
 Docker Hub 地址
 [https://hub.docker.com/r/lpyedge/deluge](https://hub.docker.com/r/lpyedge/deluge)
 
-### 变量
+### 标签
 
 | 标签  | libtorrent版本 | 备注 ｜
 | ------ | ------ | ------ | 
