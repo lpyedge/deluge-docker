@@ -80,7 +80,7 @@ EXPOSE 58946/tcp 58946/udp
 VOLUME ["/config","/data"]
 
 HEALTHCHECK --interval=5m --timeout=3s --start-period=30s \
-  CMD /healthcheck.sh 58846 8112
+  CMD /health.sh 58846 8112
 
 WORKDIR /config
 
