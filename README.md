@@ -6,6 +6,13 @@ Deluge 轻量级 BT PT 客户端
 Docker Hub 地址
 [https://hub.docker.com/r/lpyedge/deluge](https://hub.docker.com/r/lpyedge/deluge)
 
+### 变量
+
+| 标签  | libtorrent版本 | 备注 ｜
+| ------ | ------ | ------ | 
+| latest | 1.x | PT适用版本 |
+| edge | 2.x | BT使用，好多PT服务器不支持2.x |
+
 
 ### 变量
 
@@ -35,5 +42,5 @@ docker run -d \
   -v /x-drivers/config:/config \
   -v /x-drivers/data:/data \
   --restart unless-stopped \
-  lpyedge/deluge
+  lpyedge/deluge:latest
 ```
