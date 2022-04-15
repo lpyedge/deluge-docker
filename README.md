@@ -2,9 +2,13 @@
 
 Deluge 轻量级 BT PT 客户端
 
+[![](https://badgen.net/badge/lpyedge/deluge/blue?icon=docker)](https://hub.docker.com/r/lpyedge/deluge)
+[![](https://badgen.net/docker/pulls/lpyedge/deluge?icon=docker&label=pulls)](https://hub.docker.com/r/lpyedge/deluge)
+[![](https://badgen.net/docker/stars/lpyedge/deluge?icon=docker&label=stars)](https://hub.docker.com/r/lpyedge/deluge)
 
-Docker Hub 地址
-[https://hub.docker.com/r/lpyedge/deluge](https://hub.docker.com/r/lpyedge/deluge)
+[![](https://badgen.net/badge/lpyedge/deluge-docker/purple?icon=github)](https://github.com/lpyedge/deluge-docker)
+[![](https://badgen.net/github/license/lpyedge/deluge-docker?color=grey)](https://github.com/lpyedge/deluge-docker/blob/main/LICENSE)
+
 
 ### 标签
 
