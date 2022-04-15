@@ -12,16 +12,16 @@ Deluge 轻量级 BT PT 客户端
 
 ### 标签
 
-| 标签  | libtorrent版本 | 备注 ｜
-| ------ | ------ | ------ | 
-| latest | 1.x | PT适用版本 |
-| edge | 2.x | BT使用，好多PT服务器不支持2.x |
+| 标签 | libtorrent版本 | 备注 | 镜像大小 |
+|-|-|-|-|
+| latest | 1.x | PT适用版本 | ![](https://badgen.net/docker/size/lpyedge/deluge/latest?icon=docker&label=size) |
+| edge | 2.x | BT使用，好多PT服务器不支持2.x | ![](https://badgen.net/docker/size/lpyedge/deluge/edge?icon=docker&label=size) |
 
 
 ### 变量
 
 | 变量名  | 介绍                             |
-| ------ | -------------------------------- |
+| - | - |
 | -p 8112 | web访问端口 |
 | -p 58946 | BT通信端口 |
 | -p 58946/udp | BT通信端口 |
