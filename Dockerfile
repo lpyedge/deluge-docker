@@ -78,8 +78,7 @@ RUN apk update && \
       unzip \
       tzdata \
       ca-certificates \
-      curl \
-      libtorrent-rasterbar && \
+      curl && \
       
     apk add --no-cache --virtual=build-dependencies --upgrade \
       build-base \
@@ -98,7 +97,6 @@ RUN apk update && \
     pip3 --timeout 40 --retries 10  install --no-cache-dir --upgrade  \
       wheel \
       pip \
-      lbry-libtorrent \
       six==1.16.0 && \
       
     #Checkout deluge source    
@@ -129,7 +127,7 @@ EXPOSE 58946/tcp 58946/udp
 
 VOLUME ["/config","/data"]
 
-HEALTHCHECK --interval=5m --timeout=3s --start-period=30s \
+HEALTHCHECK --interval=5m --timeout=5s --start-period=30s \
   CMD /health.sh 58846 8112
 
 WORKDIR /config
