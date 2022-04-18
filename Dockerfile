@@ -67,7 +67,7 @@ COPY scripts/health.sh /
 #设置权限
 RUN chmod -R 777 /start.sh /health.sh /config
 
-ENV PYTHON_EGG_CACHE=/config/.cache
+ENV PYTHON_EGG_CACHE=/config/plugins/.python-eggs
 
 RUN apk update && \
     apk upgrade && \
