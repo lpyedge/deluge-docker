@@ -102,7 +102,7 @@ RUN apk update && \
       six==1.16.0 && \
       
     #Checkout deluge source    
-    git clone --branch develop --single-branch --depth 1 https://github.com/deluge-torrent/deluge /tmp/deluge && \
+    git clone --branch master --single-branch --depth 1 https://github.com/deluge-torrent/deluge /tmp/deluge && \
     cd /tmp/deluge && \    
     git clean --force && \
     git submodule update --depth=1 --init --recursive && \
