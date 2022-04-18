@@ -1,14 +1,13 @@
-FROM alpine:latest
-
-#SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
+FROM emmercm/libtorrent:1-alpine
 
 #维护者信息
 LABEL name="lpyedge/deluge"
-LABEL url="https://github.com/lpyedge/deluge"
+LABEL url="https://hub.docker.com/r/lpyedge/deluge"
 LABEL email="lpyedge#163.com"
 
-ENV PUID=0
-ENV PGID=0
+ENV USER=deluge \
+    PUID=1000 \
+    PGID=1000
 
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
 # RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
@@ -21,10 +20,10 @@ ENV PGID=0
 RUN mkdir /config
 COPY scripts/core.conf /config/core.conf
 COPY scripts/start.sh /
-COPY scripts/healthcheck.sh /
+COPY scripts/health.sh /
 
 #设置权限
-RUN chmod -R 777 /start.sh /healthcheck.sh /config
+RUN chmod -R 777 /start.sh /health.sh /config
 
 ENV PYTHON_EGG_CACHE=/config/.cache
 
@@ -61,7 +60,7 @@ RUN apk update && \
       six==1.16.0 && \
       
     #Checkout deluge source    
-    git clone --branch master --single-branch https://git.deluge-torrent.org/deluge /tmp/deluge && \
+    git clone --branch master --single-branch --depth 1 https://github.com/deluge-torrent/deluge /tmp/deluge && \
     cd /tmp/deluge && \    
     git clean --force && \
     git submodule update --depth=1 --init --recursive && \
@@ -77,21 +76,19 @@ RUN apk update && \
     rm -rf /tmp/*
 
 # expose port for http
-EXPOSE 8112
+EXPOSE 8112/tcp
 
 # expose port for deluge daemon
 #EXPOSE 58846
 
 # expose port for incoming torrent data (tcp and udp)
-EXPOSE 58946
-EXPOSE 58946/udp
+EXPOSE 58946/tcp 58946/udp
 
 
-VOLUME ["/config"]
-VOLUME ["/data"]
+VOLUME ["/config","/data"]
 
 HEALTHCHECK --interval=5m --timeout=3s --start-period=30s \
-  CMD /healthcheck.sh 58846 8112
+  CMD /health.sh 58846 8112
 
 WORKDIR /config
 
