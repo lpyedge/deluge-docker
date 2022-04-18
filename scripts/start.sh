@@ -7,14 +7,14 @@ USERNAME=$(getent passwd $PUID | cut -d: -f1)
 
 if [ ! $GROUPNAME ]
 then
-        addgroup -g $PGID deluge
-        GROUPNAME=deluge
+        addgroup -g $PGID $USER
+        GROUPNAME=$USER
 fi
 
 if [ ! $USERNAME ]
 then
-        adduser -G $GROUPNAME -u $PUID -D deluge
-        USERNAME=deluge
+        adduser -G $GROUPNAME -u $PUID -D $USER
+        USERNAME=$USER
 fi
 su $USERNAME -c 'deluged -c /config -l /config/log/deluged.log -L error'
 su $USERNAME -c 'deluge-web -d -c /config -l /config/log/deluge-web.log -L error'
